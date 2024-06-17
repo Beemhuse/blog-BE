@@ -6,16 +6,29 @@ exports.signup = async (req, res) => {
     const { username, email, password } = req.body;
 
     try {
-        let user = await User.findOne({ email });
+        // Check if username or email already exists
+        let user = await User.findOne({ $or: [{ username }, { email }] });
         if (user) {
-            return res.status(400).json({ msg: 'User already exists' });
+            if (user.username === username) {
+                return res.status(400).json({ msg: 'Username already exists' });
+            }
+            if (user.email === email) {
+                return res.status(400).json({ msg: 'Email already exists' });
+            }
         }
 
+        // Create new user instance
         user = new User({ username, email, password });
+
+        // Hash password before saving to database
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(password, salt);
+
         await user.save();
 
+        // Generate JWT token
         const payload = { user: { id: user.id } };
-        jwt.sign(payload, process.env.JWT_SECRET , { expiresIn: 3600 }, (err, token) => {
+        jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
             if (err) throw err;
             res.json({ token });
         });

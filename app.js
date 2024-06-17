@@ -16,8 +16,8 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(cors());
 app.use(bodyParser.json());
+app.use(cors());
 
 // Routes
 app.use('/api/auth', authRoutes);
