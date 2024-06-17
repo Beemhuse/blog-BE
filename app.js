@@ -1,4 +1,4 @@
-const dotenv = require('dotenv');
+require('dotenv').config(); // Load environment variables from .env file
 
 const express = require('express');
 const connectDB = require('./config/db');
@@ -8,8 +8,6 @@ const userRoutes = require('./routes/userRoutes');
 const postRoutes = require('./routes/postRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const bodyParser = require('body-parser');
-const envFile = `.env.${process.env.NODE_ENV}`;
-dotenv.config({ path: envFile });
 
 
 const app = express();
