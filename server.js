@@ -1,9 +1,10 @@
-require('dotenv').config(); // Load environment variables from .env file
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
 
 const app = require('./app');
 
-console.log(process.env.PORT)
-
+// Use the PORT environment variable, defaulting to 5000 if not set
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
