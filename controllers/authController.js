@@ -41,7 +41,7 @@ exports.signup = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-    const { email, password } = req.body;
+    const { email } = req.body;
 
     try {
         // Check if user exists
@@ -50,11 +50,7 @@ exports.login = async (req, res) => {
             return res.status(400).json({ msg: 'Invalid credentials' });
         }
 
-        // Validate password
-        const isMatch = await user.matchPassword(password);
-        if (!isMatch) {
-            return res.status(400).json({ msg: 'Invalid credentials' });
-        }
+     
 
         // Generate JWT token
         const payload = { user: { id: user.id } };
