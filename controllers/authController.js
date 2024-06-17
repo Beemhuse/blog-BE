@@ -44,24 +44,30 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
+        // Check if user exists
         let user = await User.findOne({ email });
         if (!user) {
             return res.status(400).json({ msg: 'Invalid credentials' });
         }
 
+        // Validate password
         const isMatch = await user.matchPassword(password);
         if (!isMatch) {
             return res.status(400).json({ msg: 'Invalid credentials' });
         }
 
+        // Generate JWT token
         const payload = { user: { id: user.id } };
-        const userDetail = {email: user.email, password: user.password} 
-        jwt.sign(payload, 'secret', { expiresIn: 3600 }, (err, token) => {
-            if (err) throw err;
+        jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+            if (err) {
+                console.error('JWT error:', err);
+                return res.status(500).json({ msg: 'JWT token generation failed' });
+            }
+            const userDetail = { email: user.email }; // Only send necessary user details
             res.json({ token, user: userDetail });
         });
     } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server error');
+        console.error('Login error:', err);
+        res.status(500).json({ msg: 'Server error' });
     }
 };
