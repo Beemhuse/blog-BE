@@ -1,3 +1,5 @@
+const dotenv = require('dotenv');
+
 const express = require('express');
 const connectDB = require('./config/db');
 const cors = require('cors');
@@ -6,6 +8,9 @@ const userRoutes = require('./routes/userRoutes');
 const postRoutes = require('./routes/postRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const bodyParser = require('body-parser');
+const envFile = `.env.${process.env.NODE_ENV}`;
+dotenv.config({ path: envFile });
+
 
 const app = express();
 
