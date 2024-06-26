@@ -12,7 +12,7 @@ const upload = require('../middlewares/upload'); // Import the upload middleware
 
 const router = express.Router();
 
-router.post('/', upload.single('image'),auth, createPost);
+router.post('/', upload.single('image'), createPost);
 router.get('/', getPosts);
 router.get('/category/:category', getPostsByCategory); // Route for fetching posts by category
 router.get('/:id', getPostById);
