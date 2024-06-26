@@ -18,11 +18,11 @@ const PostSchema = new Schema({
         type: String, // Name of the author
         required: true
     },
-    // category: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Category', // Reference to the Category model
-    //     required: true
-    // },
+    category: {
+        type: Schema.Types.ObjectId,
+        ref: 'Category', // Reference to the Category model
+        required: false
+    },
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User'

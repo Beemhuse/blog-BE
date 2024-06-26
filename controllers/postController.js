@@ -2,7 +2,7 @@ const Post = require('../models/postModel');
 
 // Create a new post
 exports.createPost = async (req, res) => {
-    const { title, content, author } = req.body;
+    const { title, content, author, category } = req.body;
     const image = req.file ? req.file.filename : null; // Get the filename of the uploaded image
 
     try {
@@ -12,7 +12,7 @@ exports.createPost = async (req, res) => {
             image,
             author,
             category,
-            user: req.user.id,
+            // user: req.user.id,
         });
 
         const post = await newPost.save();
