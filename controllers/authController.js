@@ -30,7 +30,7 @@ exports.signup = async (req, res) => {
 
         // Generate JWT token
         const payload = { user: { id: user.id } };
-        jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+        jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "30d" }, (err, token) => {
             if (err) throw err;
             res.json({ token });
         });
@@ -54,7 +54,7 @@ exports.login = async (req, res) => {
 
         // Generate JWT token
         const payload = { user: { id: user.id } };
-        jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+        jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "30d" }, (err, token) => {
             if (err) {
                 console.error('JWT error:', err);
                 return res.status(500).json({ msg: 'JWT token generation failed' });
